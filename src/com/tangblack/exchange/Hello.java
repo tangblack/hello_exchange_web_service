@@ -52,10 +52,10 @@ public class Hello
 		
 		
 		System.out.println("Create");
-		createAppointment(service, "週會", "2016-05-15 09:00:00", "2016-05-15 10:00:00", "討論專案進度");
-		createAppointment(service, "xx專案kick-off會議", "2016-05-16 09:00:00", "2016-05-16 10:00:00", "如標題所示，啟動xx專案。");
-		createAppointment(service, "下午茶", "2016-05-17 09:00:00", "2016-05-17 10:00:00", "如標題所示");
-		createAppointment(service, "foo", "2016-05-17 09:00:00", "2016-05-17 10:00:00", "I am bar's father");
+		createAppointment(service, "週會", false, "2016-05-15 09:00:00", "2016-05-15 10:00:00", "討論專案進度");
+		createAppointment(service, "xx專案kick-off會議", false, "2016-05-16 09:00:00", "2016-05-16 10:00:00", "如標題所示，啟動xx專案。");
+		createAppointment(service, "下午茶", false, "2016-05-17 09:00:00", "2016-05-17 10:00:00", "如標題所示");
+		createAppointment(service, "foo", true, "2016-05-17 09:00:00", "2016-05-17 10:00:00", "I am bar's father");
 		List<Appointment> appointments = findAppointments(service, "2016-05-01 00:00:00", "2016-05-30 00:00:00");
 		for (Appointment appointment : appointments)
 		{
@@ -123,6 +123,7 @@ public class Hello
 	
 	private static void createAppointment(ExchangeService service, 
 			String subject,
+			boolean isAllDayEvent,
 			String inputStartDate, 
 			String inputEndDate,
 			String body) throws Exception
@@ -138,7 +139,11 @@ public class Hello
 		appointment.setStart(startDate);//new Date(2010-1900,5-1,20,20,00));
 		appointment.setEnd(endDate); //new Date(2010-1900,5-1,20,21,00));
 		
-		appointment = setAllDayEvent(appointment);
+		if (isAllDayEvent)
+		{
+			appointment.setIsAllDayEvent(true);
+//		appointment = setAllDayEvent(appointment);
+		}
 
 		// 重複性工作
 //		formatter = new SimpleDateFormat("yyyy-MM-dd");
